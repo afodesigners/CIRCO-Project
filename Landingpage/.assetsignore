@@ -1,0 +1,11 @@
+# Files in this folder that must NOT be published by Cloudflare (Figma Make / Vite tooling)
+.figma
+.gitattributes
+.gitignore
+.mise.toml
+package.json
+pnpm-lock.yaml
+vite.config.ts
+node_modules
+dist
+.DS_Store

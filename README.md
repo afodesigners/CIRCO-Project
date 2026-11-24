@@ -2,41 +2,23 @@
 
 Design and build files for the **CIRCO** app landing page. CIRCO is a local events app ("Your city is more alive than you think."): 12 categories covering music, nightlife, food and drink, family, arts and culture, sports and community, all in one place.
 
-This repo currently holds the **Option 2 "Cylinder" keyframes**: static frames of the scroll animation, ready to import into Figma for design review.
+The live landing page lives in [`Landingpage/`](Landingpage/) and is the main build that gets deployed.
 
 ## Contents
 
-| File | What it is |
+| Path | What it is |
 | --- | --- |
-| [`public/circo-figma-keyframes-2-cylinder.html`](public/circo-figma-keyframes-2-cylinder.html) | Self-contained 1440px keyframe sheet for Option 2. All images are embedded, so it works offline (about 2.5 MB). |
-
-### Frames in the keyframe sheet
-
-Each frame is a `<section class="fr">` with a `data-name` attribute, so it comes into Figma as a named layer.
-
-| # | Frame | Scroll position | Height |
-| --- | --- | --- | --- |
-| F1 | Hero: event-card ring (flat approximation of the 3D cylinder) | 0% | 900px |
-| F2 | Ring rotated 38° | 25% | 900px |
-| F3 | Ring rotated 110° plus second headline ("Your unofficial guide to being…") | 60% | 900px |
-| 4 | Story: scroll-reveal quote (final state) | n/a | 900px |
-| 5 | Features: numbered rows (Discover, Map, Saved, Food & Drink) | n/a | 900px |
-| 6 | Pre-order CTA ("Your city."), where the pinned pre-order pill hides | n/a | 900px |
-| 7 | Footer | n/a | 320px |
-
-## Viewing and importing into Figma
-
-1. **Preview:** open https://circo-project.afodesigners.workers.dev (once workers.dev is enabled), or open the HTML file in a browser. The layout is fixed at 1440px wide, so use a desktop window.
-2. **Import into Figma:** use an HTML-to-Figma plugin (for example *html.to.design*). Import the file or a hosted URL at 1440px width. Each `section` becomes its own frame, named from `data-name`.
-
-The F1–F3 ring frames are flattened 2D snapshots of what will be a 3D, scroll-driven cylinder. Card size, position, rotation and the dark overlay (`.sh`) fake the depth.
+| [`Landingpage/index.html`](Landingpage/index.html) | **The landing page.** Self-contained HTML (images embedded, fonts from Google Fonts), served as-is. |
+| [`Landingpage/.figma/`](Landingpage/.figma/), `package.json`, `vite.config.ts`, `pnpm-lock.yaml` | Figma Make project files, kept so the page can be re-imported and edited in Figma Make. Not published. |
+| [`Landingpage/.assetsignore`](Landingpage/.assetsignore) | Tells Cloudflare which files in `Landingpage/` must not be served. |
 
 ## Deployment
 
-The site deploys to **Cloudflare Workers** (static assets, no Worker script) on every push to `main`, through Workers Builds.
+The site deploys to **Cloudflare Workers** (static assets, no Worker script) on every push to `main`, through Workers Builds. No build step is needed.
 
-- [`wrangler.jsonc`](wrangler.jsonc) serves everything in `public/` as-is. The `name` must stay `circo-project` to match the Worker in the dashboard.
-- `public/index.html` is the landing page that links to each keyframe sheet.
+- [`wrangler.jsonc`](wrangler.jsonc) serves the `Landingpage/` folder. The `name` must stay `circo-project` to match the Worker in the dashboard.
+- Anything added to `Landingpage/` is public unless it is listed in `Landingpage/.assetsignore`.
+- Live URL: https://circo-project.afodesigners.workers.dev (once workers.dev is enabled).
 - Local preview: `npx wrangler dev`. Manual deploy: `npx wrangler deploy`.
 
 ## Design tokens
@@ -69,11 +51,13 @@ For when this moves from keyframes to the live page:
 
 ```
 CIRCO-Project/
-├── public/                                   # Served by Cloudflare
-│   ├── index.html                            # Landing page linking to the keyframe sheets
-│   ├── 404.html
-│   └── circo-figma-keyframes-2-cylinder.html # Option 2 keyframes (Figma import)
-├── wrangler.jsonc                            # Cloudflare Workers config
+├── Landingpage/            # Served by Cloudflare
+│   ├── index.html          # The landing page (main build)
+│   ├── .assetsignore       # Files excluded from publishing
+│   ├── .figma/             # Figma Make config (not published)
+│   ├── package.json        # Figma Make / Vite tooling (not published)
+│   └── vite.config.ts
+├── wrangler.jsonc          # Cloudflare Workers config
 ├── README.md
 ├── .editorconfig
 ├── .gitattributes
