@@ -1,7 +1,7 @@
 * text=auto eol=lf
 
 # Keyframe sheets embed base64 images: skip text diffs and keep them out of language stats
-circo-figma-keyframes-*.html -diff linguist-generated
+public/circo-figma-keyframes-*.html -diff linguist-generated
 
 # Binary assets
 *.png binary
