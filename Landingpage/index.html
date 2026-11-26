@@ -255,7 +255,7 @@ jform.addEventListener('submit',async e=>{
   finally{btn.disabled=false}
 });
 let motionP,closing=false;
-const loadMotion=()=>motionP||(motionP=import('https://cdn.jsdelivr.net/npm/motion@14.11.1/+esm').catch(()=>null));
+const loadMotion=()=>motionP||(motionP=new Promise(r=>{const el=document.createElement('script');el.src='vendor/motion-14.11.1.js';el.onload=()=>r(window.Motion||null);el.onerror=()=>r(null);document.head.appendChild(el)}));
 async function openJoin(){
   if(dlg.open)return;
   resetJoin();closing=false;
