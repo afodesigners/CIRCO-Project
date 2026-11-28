@@ -293,11 +293,11 @@ $$('[data-rv]').forEach(el=>{const w=el.textContent.trim().split(/\s+/);el.inner
   if(RM||!('IntersectionObserver' in window)){el.classList.add('play');return}
   new IntersectionObserver(es=>el.classList.toggle('play',es[0].isIntersecting),{threshold:.6}).observe(el.closest('section')||el)});
 
-// solid nav once past hero scene 2; hide pin on phones while hero is on screen
+// solid nav once past hero scene 2; hide pin while hero is on screen (hero has its own CTA)
 const navEl=$('.nav'),rsEl=$('.rs'),pinEl=$('#pin'),mq=matchMedia('(max-width:820px)');
 function navPin(){
   navEl.classList.toggle('solid',scrollY>=rsEl.offsetTop+rsEl.offsetHeight-innerHeight-1);
-  if(pinEl)pinEl.classList.toggle('hero-hide',mq.matches&&scrollY<rsEl.offsetTop+rsEl.offsetHeight-innerHeight*.5);
+  if(pinEl)pinEl.classList.toggle('hero-hide',scrollY<rsEl.offsetTop+rsEl.offsetHeight-innerHeight*.5);
 }
 addEventListener('scroll',navPin,{passive:true});addEventListener('resize',navPin);
 if(mq.addEventListener)mq.addEventListener('change',navPin);navPin();
